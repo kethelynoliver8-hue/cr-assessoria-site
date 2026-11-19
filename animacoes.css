@@ -1,0 +1,205 @@
+/* Dimensões dos SVGs incorporados. */
+.anim-svg { display:block; }
+.edital-icon .anim-svg{ width:66%; height:auto; }
+.escritorios-relatorio tbody th .anim-svg{ width:clamp(15px,1.65vw,28px); height:auto; }
+.valores-icone .anim-svg{ width:70%; height:auto; }
+.valores-medida figure .anim-svg{ width:min(100%,544px); height:auto; margin:auto; }
+html:root body :is(.edital-icon,.valores-icone,.faq__chat) .anim-svg{ width:var(--icon-card-interno); }
+html:root body .escritorios-relatorio tbody th .anim-svg{ width:16px; }
+html:root body .valores-medida figure .anim-svg{ max-height:var(--space-ilustracao); }
+html:root body .valores-medida figure .anim-svg{ max-height:clamp(90px,14vh,140px); }
+@media (min-width:1024px) and (min-height:560px){
+html:root body .edital-icon .anim-svg{ width:50%; }
+}
+@media (min-width:1024px) and (min-height:560px) and (max-height:595px){
+html:root body .valores-medida figure .anim-svg{ max-height:74px; }
+}
+@media (min-width:1024px) and (min-height:560px) and (max-height:620px){
+html:root body .valores-medida figure .anim-svg{ max-height:76px; }
+}
+@media (min-width:1024px) and (min-height:560px) and (max-height:595px){
+html:root body .valores-medida figure .anim-svg{ max-height:68px; }
+}
+html:root body .edital-icon .anim-svg{ width:60%; }
+html:root body #editais .edital-icon .anim-svg{ width:55%; }
+
+:root {
+  --anim-dur-s: .25s;
+  --anim-dur-m: .6s;
+  --anim-dur-l: 1.2s;
+  --anim-ease: cubic-bezier(.2,.7,.2,1);
+  --anim-pop: cubic-bezier(.34,1.56,.64,1);
+  --anim-stagger: 80ms;
+  --verde-agua: #1FB5A3;
+  --verde-escuro: #0E8F80;
+}
+.progresso, .whatsapp-pilula[hidden], .anim-status [hidden] { display:none; }
+html[data-animacoes="off"] *, html[data-animacoes="off"] *::before,
+html[data-animacoes="off"] *::after { animation:none !important; transition:none !important; }
+
+/* EFEITO 1: Carimbo */
+.anim-carimbo { position:relative; display:grid; place-items:center; width:min(180px,100%); margin-inline:auto; pointer-events:none; color:var(--verde-escuro); }
+.anim-carimbo svg { width:100%; height:auto; }
+.anim-carimbo::before, .processo-numero::after {
+  content:""; position:absolute; inset:0; border:2px solid currentColor; border-radius:inherit; opacity:0; pointer-events:none;
+}
+.anim-carimbo { border-radius:14px; }
+.anim-carimbo::before { animation:anim-anel .5s .26s both; }
+.anim-carimbo--passo { position:absolute; top:4px; left:min(62%,calc(100% - 96px)); width:min(96px,42%); z-index:1; }
+.anim-sucesso { display:grid; align-content:center; justify-items:center; gap:10px; text-align:center; }
+
+/* EFEITO 2: Linha do tempo */
+html.anim .processo-lista.anim-trilha::before { opacity:.25; }
+.anim-trilha::after {
+  content:""; position:absolute; top:calc(var(--passo-circulo) / 2); inset-inline:12.5%;
+  border-top:3px dashed var(--passo-verde); transform:translateY(-50%);
+  animation:anim-trilha 2.1s linear both; pointer-events:none;
+}
+.anim-trilha .processo-numero { z-index:1; }
+.anim-trilha .processo-numero.aceso::after { animation:anim-anel .5s both; color:var(--passo-verde); }
+.anim-trilha .processo-numero:not(.aceso) { background:#DDF3F0; color:#087467; }
+@keyframes anim-trilha { from { clip-path:inset(0 100% 0 0); } to { clip-path:inset(0); } }
+@media (max-width:599px) {
+  .anim-trilha::after { inset:auto; top:var(--trilha-topo); height:var(--trilha-altura); left:var(--trilha-x); border-top:0; border-left:3px dashed var(--passo-verde); transform:translateX(-50%); animation-name:anim-trilha-vertical; }
+  .anim-carimbo--passo { left:auto; right:4px; }
+}
+@keyframes anim-trilha-vertical { from { clip-path:inset(0 0 100% 0); } to { clip-path:inset(0); } }
+
+/* EFEITO 3: Relatório mensal */
+.anim-status { display:inline-grid; }
+.anim-status > span { grid-area:1 / 1; }
+.anim-contador { position:relative; font-variant-numeric:tabular-nums; }
+.anim-contador > [aria-hidden] { position:absolute; inset:0; text-align:inherit; }
+.anim-contador > .visualmente-oculto { position:static!important; width:auto!important; height:auto!important; clip-path:none!important; opacity:0; margin:0!important; }
+
+/* EFEITO 4: Régua */
+.regua-h, .regua-v, .tick { transform-box:fill-box; transform-origin:left top; }
+
+/* EFEITO 6: Máscara do título. O recorte só é aplicado durante a entrada. */
+@media (min-width:768px) {
+  html.anim .titulo__linha.anim-mascara { clip-path:inset(0 0 -.16em); }
+}
+
+/* EFEITO 7: Cascatas, ícones, chips e FAQ */
+html.anim .anim-entrada {
+  animation:anim-entrada var(--anim-dur-m) var(--anim-ease) both;
+  animation-delay:calc(var(--i,0) * var(--anim-stagger));
+}
+@keyframes anim-entrada { from { opacity:0; transform:translateY(var(--anim-y,16px)); } to { opacity:1; transform:translateY(0); } }
+@media (max-width:767px), (pointer:coarse) {
+  html.anim .anim-entrada { --anim-y:10px; --anim-dur-m:.4s; }
+}
+html.anim .faq__sinal::after { transition:transform .28s var(--anim-ease); }
+html.anim .faq__item[open] .faq__sinal::after { display:block; transform:translate(-50%,-50%) rotate(180deg); }
+@supports (interpolate-size:allow-keywords) {
+  html.anim .faq__item::details-content { transition:block-size .28s var(--anim-ease), content-visibility .28s allow-discrete; }
+}
+
+/* EFEITO 8: Botões */
+html.anim .primary { position:relative; overflow:hidden; }
+html.anim .primary::after {
+  content:""; position:absolute; inset:0 auto 0 0; width:60%; pointer-events:none;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);
+  animation:anim-brilho 6s linear infinite paused; animation-delay:calc(var(--i,0) * -.9s);
+}
+html.anim .primary.em-vista::after { animation-play-state:running; }
+html.anim .primary:is(:hover,:focus-visible)::after { animation:anim-brilho-direto .7s var(--anim-ease) both; }
+@keyframes anim-brilho { 0% { transform:translateX(-130%) skewX(-18deg); } 15%,100% { transform:translateX(260%) skewX(-18deg); } }
+@keyframes anim-brilho-direto { from { transform:translateX(-130%) skewX(-18deg); } to { transform:translateX(260%) skewX(-18deg); } }
+html.anim :is(.secondary,.edital .button) { position:relative; isolation:isolate; }
+html.anim :is(.secondary,.edital .button)::before {
+  content:""; position:absolute; inset:0; border-radius:inherit; background:var(--cor-branco);
+  z-index:-1; pointer-events:none; transform:scaleX(0); transform-origin:left; transition:transform .28s var(--anim-ease);
+}
+html.anim :is(.secondary,.edital .button):is(:hover,:focus-visible)::before { transform:scaleX(1); }
+html.anim :is(.cobertura-whatsapp,.edital .button)::before { background:var(--cor-azul-botao); }
+html.anim :is(.cobertura-whatsapp,.edital .button):is(:hover,:focus-visible) { color:white; }
+html.anim .secondary:not(.cobertura-whatsapp):is(:hover,:focus-visible) { color:var(--cor-azul-marinho); }
+@media (min-width:1024px) and (hover:hover) and (pointer:fine) {
+  html.anim [data-magnetico] { translate:var(--mx,0px) var(--my,0px); transition:translate .3s var(--anim-ease); }
+}
+html.anim .whatsapp-flutuante::after {
+  content:""; position:absolute; inset:0; border:2px solid #25D366; border-radius:50%; pointer-events:none;
+  animation:anim-pulso 8s infinite;
+}
+@keyframes anim-pulso { 0% { transform:scale(1); opacity:.45; } 15%,100% { transform:scale(1.6); opacity:0; } }
+@keyframes anim-anel { from { transform:scale(1); opacity:.35; } to { transform:scale(1.3); opacity:0; } }
+@media (min-width:768px) and (hover:hover) and (pointer:fine) {
+  html.anim .whatsapp-flutuante > svg { transition:transform var(--anim-dur-s); }
+  html.anim .whatsapp-flutuante:is(:hover,:focus-visible) > svg { transform:rotate(-8deg) scale(1.06); }
+}
+.whatsapp-pilula {
+  position:absolute; right:calc(100% + 10px); white-space:nowrap; pointer-events:none;
+  border-radius:999px; padding:8px 14px; font-size:.85rem; background:var(--cor-azul-marinho); color:white;
+}
+html.anim .oculto-na-chamada::after, html.anim .oculto-na-chamada .whatsapp-pilula { visibility:hidden; }
+
+/* EFEITO 9: Campos e anexos */
+html.anim .field > label { position:relative; }
+html.anim .field > label::after {
+  content:""; position:absolute; bottom:0; left:0; width:100%; height:2px; background:var(--verde-agua);
+  transform:scaleX(0); transform-origin:left; transition:transform .3s; pointer-events:none;
+}
+html.anim .field:focus-within > label::after { transform:scaleX(1); }
+html.anim .field :is(input,select,textarea):focus { border-color:var(--verde-escuro); box-shadow:0 0 0 3px rgb(31 181 163 / .18); }
+
+/* EFEITO 10: Holofote */
+@media (min-width:768px) and (hover:hover) and (pointer:fine) {
+  html.anim [data-holofote] { position:relative; isolation:isolate; }
+  html.anim [data-holofote]::before {
+    content:""; position:absolute; inset:0; z-index:-1; border-radius:inherit; pointer-events:none;
+    background:radial-gradient(240px circle at var(--hx,50%) var(--hy,50%),rgb(31 181 163 / .14),transparent 60%);
+    opacity:0; transition:opacity .2s;
+  }
+  html.anim [data-holofote]:hover::before { opacity:1; }
+}
+
+/* EFEITO 11: Cabeçalho e progresso */
+html.anim .cabecalho--rolado { box-shadow:0 6px 20px rgb(11 37 69 / .12); }
+html.anim .topbar :is(.brand,.phone,.primary) { transition:scale var(--anim-dur-s) var(--anim-ease); }
+html.anim .cabecalho--rolado :is(.brand,.phone,.primary) { scale:.92; }
+html.anim .cabecalho--rolado .brand { transform-origin:left center; }
+html.anim .cabecalho--rolado .primary { transform-origin:right center; }
+html.anim .cabecalho--rolado .progresso {
+  display:block; position:absolute; inset:auto 0 0; height:3px; pointer-events:none;
+  background:linear-gradient(90deg,#1FB5A3,#7CF2E3); transform:scaleX(var(--p,0)); transform-origin:left;
+}
+html.anim .cabecalho--rolado { background:#fff; }
+
+@media print {
+  html.anim *, html.anim *::before, html.anim *::after { animation:none!important; transition:none!important; }
+  .progresso, .whatsapp-pilula, .anim-carimbo { display:none!important; }
+}
+
+html.anim .anim-status-anterior, html.anim .anim-check-pendente { opacity:0; }
+html.anim.anim-aba-oculta .primary::after,
+html.anim.anim-aba-oculta .whatsapp-flutuante::after { animation-play-state:paused; }
+html.anim .anim-mascara > .titulo__txt { display:block; }
+@media (min-width:600px) and (max-width:1023px) { .anim-trilha::after { display:none; } }
+html.anim .anim-status-anterior { visibility:hidden; }
+html.anim .edital-button > span { transition:transform var(--anim-dur-s); }
+html.anim .edital-button:is(:hover,:focus-visible) > span { transform:translateX(4px); }
+html.anim .processo-passo:last-child { overflow:clip; }
+html.anim .card:has(.anim-sucesso) { display:flex; flex-direction:column; }
+html.anim .anim-sucesso { flex:1; }
+html.anim .escritorios-entrada { animation:none; }
+html.anim .edital-button:is(:hover,:focus-visible),
+html.anim .secondary:is(:hover,:focus-visible) { background:transparent; }
+@media (max-width:599px) {
+  html.anim .anim-trilha .processo-passo:not(:last-child)::before { opacity:.25; }
+}
+html.anim-inativa *, html.anim-inativa *::before, html.anim-inativa *::after { animation:none!important; transition:none!important; }
+
+/* A trilha da linha do tempo é vertical em todas as larguras. */
+#como-funciona .anim-trilha::after {
+  display:block;
+  inset:auto;
+  top:var(--trilha-topo);
+  left:var(--trilha-x);
+  height:var(--trilha-altura);
+  border-top:0;
+  border-left:2px dashed var(--passo-verde);
+  transform:translateX(-50%);
+  animation-name:anim-trilha-vertical;
+}
+html.anim #como-funciona .anim-trilha .processo-passo:not(:last-child)::before { opacity:.25; }
